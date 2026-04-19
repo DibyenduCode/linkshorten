@@ -1,39 +1,34 @@
 <?php
-if(isset($_POST["url"])){
-    function codegen(){
-        $bitcode=random_bytes(6);
-        $code=bin2hex($bitcode);
-        return $code;
-    }
+// $originalurl=$_POST["url"];
+$url="https://google.com";
+$baseurl="http://localhost/link/";
+$bitcode=random_bytes(6);
+$code=bin2hex($bitcode);
+$finalshorturl= $baseurl.$code;
 
-    function fileread(){
+    
+
+function createnewdata($url,$code){
+$newdata=[$code=>$url];
+return $newdata;
+}
+
+function fileread(){
         $file="data.json";
         $filehandel=fopen($file,"r");
         $filejson=fread($filehandel,filesize($file));
         fclose($filehandel);
-        return $filejson;
+        $jsontoarray=json_decode($filejson,true);
+        return $jsontoarray;
 }
 
-    function filewrite($data){
+function filewrite($jsontoarray,){
         $file="data.json";
         $filehandel=fopen($file,"w");
         fwrite($filehandel,$data);
         fclose($filehandel);
 }
  
-$webcode=codegen();
-echo $webcode;
-
-$baseurl="http://localhost/link/";
-$finalshorturl= $baseurl.$webcode;
-echo $finalshorturl;
-
-$orilink=$_POST["url"];
-
-
-
-
-
-}
-
+$dd=(createnewdata($url,$code));
+echo $dd[$code];
 ?>
